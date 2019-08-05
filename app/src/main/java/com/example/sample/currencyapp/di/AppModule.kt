@@ -29,13 +29,15 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
+
 @Module(includes = [ViewModelModule::class, RepositoriesModule::class])
 class AppModule {
 
     @Singleton
     @Provides
     fun provideRetrofit(
-        adapterFactory: RxErrorHandlingCallAdapterFactory): Retrofit {
+        adapterFactory: RxErrorHandlingCallAdapterFactory
+    ): Retrofit {
         val interceptor = HttpLoggingInterceptor()
         if (BuildConfig.DEBUG)
             interceptor.level = HttpLoggingInterceptor.Level.BODY
@@ -44,7 +46,21 @@ class AppModule {
         val client = OkHttpClient.Builder()
             .readTimeout(1, TimeUnit.MINUTES)
             .connectTimeout(1, TimeUnit.MINUTES)
-            .addInterceptor(interceptor).build()
+            .addInterceptor(interceptor)
+            .addInterceptor { chain ->
+                val original = chain.request()
+                val originalHttpUrl = original.url()
+                val url = originalHttpUrl.newBuilder()
+                    .addQueryParameter("app_id", BuildConfig.ApiKey)
+                    .build()
+                val requestBuilder = original.newBuilder()
+                    .url(url)
+                val request = requestBuilder.build()
+                chain.proceed(request)
+            }
+            .build()
+
+
         return Retrofit.Builder()
             .baseUrl(BuildConfig.SERVER_URL)
             .addConverterFactory(GsonConverterFactory.create())
