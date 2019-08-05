@@ -16,10 +16,9 @@ interface ApiRequests {
     @GET("currencies.json")
     fun currencies(): Single<Currencies>
 
-    @GET("convert/{value}/{from}/{tp}")
+    @GET("convert/{value}/{from}/{to}")
     fun changeRate(
         @Path("value") value: String,
         @Path("from") from: String,
         @Path("to") to: String): Single<CurrencyRatePayload>
-
 }
