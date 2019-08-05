@@ -19,4 +19,9 @@ class MainActivity : BaseActivity<MainRepository, MainViewModel>() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
     }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.getCurrencies()
+    }
 }
