@@ -11,5 +11,5 @@ import retrofit2.http.GET;
 public interface ApiRequests {
 
     @GET("currencies.json")
-    Single<Currencies> getBalanceList();
+    Single<Currencies> getCurrencies();
 }
