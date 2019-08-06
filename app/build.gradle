@@ -26,13 +26,11 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            buildConfigField 'String', "ApiKey", db_key
-            buildConfigField 'String', 'SERVER_URL', '"https://openexchangerates.org/api/"'
+            buildConfigField 'String', 'SERVER_URL', '"https://api.ratesapi.io/api/"'
 
         }
         debug {
-            buildConfigField 'String', "ApiKey", db_key
-            buildConfigField 'String', 'SERVER_URL', '"https://openexchangerates.org/api/"'
+            buildConfigField 'String', 'SERVER_URL', '"https://api.ratesapi.io/api/"'
 
         }
     }

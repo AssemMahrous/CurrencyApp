@@ -47,17 +47,6 @@ class AppModule {
             .readTimeout(1, TimeUnit.MINUTES)
             .connectTimeout(1, TimeUnit.MINUTES)
             .addInterceptor(interceptor)
-            .addInterceptor { chain ->
-                val original = chain.request()
-                val originalHttpUrl = original.url()
-                val url = originalHttpUrl.newBuilder()
-                    .addQueryParameter("app_id", BuildConfig.ApiKey)
-                    .build()
-                val requestBuilder = original.newBuilder()
-                    .url(url)
-                val request = requestBuilder.build()
-                chain.proceed(request)
-            }
             .build()
 
 

@@ -1,5 +1,43 @@
 <resources>
     <string name="app_name">CurrencyApp</string>
     <string name="no_internet_connection">No Internet Connection</string>
-
+    <string name="from">From</string>
+    <string name="to">To</string>
+    <string name="add_your_quantity_here">add your quantity here</string>
+    <string name="result">Result:</string>
+    <string-array name="currencies">
+        <item>GBP</item>
+        <item>HKD</item>
+        <item>IDR</item>
+        <item>ILS</item>
+        <item>DKK</item>
+        <item>INR</item>
+        <item>CHF</item>
+        <item>MXN</item>
+        <item>MXN</item>
+        <item>CZK</item>
+        <item>SGD</item>
+        <item>THB</item>
+        <item>HRK</item>
+        <item>EUR</item>
+        <item>MYR</item>
+        <item>NOK</item>
+        <item>CNY</item>
+        <item>BGN</item>
+        <item>PHP</item>
+        <item>PLN</item>
+        <item>ZAR</item>
+        <item>CAD</item>
+        <item>BRL</item>
+        <item>RON</item>
+        <item>NZD</item>
+        <item>TRY</item>
+        <item>JPY</item>
+        <item>RUB</item>
+        <item>KRW</item>
+        <item>USD</item>
+        <item>AUD</item>
+        <item>HUF</item>
+        <item>SEK</item>
+    </string-array>
 </resources>
