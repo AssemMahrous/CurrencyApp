@@ -65,19 +65,9 @@ class MainActivity : BaseActivity<MainRepository, MainViewModel>(), AdapterView.
     }
 
     fun doSearch() {
-
-//        if ((selected_from_index != sp_from_currency.selectedItemPosition) &&
-//            selected_to_index != sp_from_currency.selectedItemPosition
-//        ) {
-        rate = 0.0
-//            selected_from_index = sp_from_currency.selectedItemPosition
-//            selected_to_index = sp_to_currency.selectedItemPosition
-        getData(
-            sp_from_currency.selectedItem.toString(),
-            sp_to_currency.selectedItem.toString()
-        )
-
-//        }
+        if ((sp_from_currency.selectedItemPosition != sp_to_currency.selectedItemPosition)) {
+            getData(sp_from_currency.selectedItem.toString(), sp_to_currency.selectedItem.toString())
+        }
     }
 
 
@@ -99,7 +89,9 @@ class MainActivity : BaseActivity<MainRepository, MainViewModel>(), AdapterView.
             return
         }
 
-        if (tv_currency_input.text.toString() != "")
+        if (tv_currency_input.text.toString() != "") {
+            rate = 0.0
             doSearch()
+        }
     }
 }
