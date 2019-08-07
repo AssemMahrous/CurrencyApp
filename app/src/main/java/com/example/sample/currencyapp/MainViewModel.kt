@@ -2,7 +2,7 @@ package com.example.sample.currencyapp
 
 import androidx.lifecycle.MutableLiveData
 import com.example.sample.currencyapp.base.BaseViewModel
-import com.example.sample.currencyapp.data.model.RatesResponse
+import com.example.sample.currencyapp.data.model.Rates
 import com.google.gson.Gson
 import io.reactivex.functions.Consumer
 import org.json.JSONObject
@@ -14,15 +14,15 @@ class MainViewModel @Inject constructor() : BaseViewModel<MainRepository>() {
 
     fun getRate(base: String, to: String) {
         subscribe(repository.getRate(base), Consumer {
-            handleValue(it, to)
+            handleValue(it.rates, to)
         })
     }
 
 
-    private fun handleValue(data: RatesResponse, to: String) {
+    private fun handleValue(rates: Rates, to: String) {
         clearSubscription()
         val gson = Gson()
-        val json = gson.toJson(data.rates)
+        val json = gson.toJson(rates)
         val obj = JSONObject(json)
         val iter = obj.keys()
         while (iter.hasNext()) {
