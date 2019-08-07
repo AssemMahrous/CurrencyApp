@@ -3,9 +3,9 @@ package com.example.sample.currencyapp.base
 import android.app.ProgressDialog
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import com.example.sample.currencyapp.R
 import com.example.sample.currencyapp.di.Injectable
 
 
@@ -21,37 +21,37 @@ abstract class BaseFragment<repository : BaseRepository, MBaseViewModel : BaseVi
         vmf = getBaseViewModelFactory()
 
         super.onViewCreated(view, savedInstanceState)
-        vm.loading.observe(this, Observer {
-            if (it) showLoading()
-            else hideLoading()
+        vm.Status.observe(this, Observer {
+            when (it) {
+                is ScreenStatus.Error -> showError(it)
+                is ScreenStatus.Loading -> showLoading()
+                is ScreenStatus.Loaded -> hideLoading()
+                else -> {
+                    // todo
+                }
+            }
         })
-
-        vm.error.observe(this, Observer {
-            hideLoading()
-            showError(it)
-        })
-    }
-
-    fun showError(it: String?) {
-//        Utilities.showAlert(activity, it, R.color.colorAccent)
     }
 
     abstract fun getBaseViewModel(): MBaseViewModel
 
     abstract fun getBaseViewModelFactory(): ViewModelFactory
 
+    fun showError(error: ScreenStatus.Error) {
+        val errorMessage = when {
+            error.errorResId != null -> getString(error.errorResId)
+            error.errorString != null -> error.errorString
+            else -> "Something went wrong"
+        }
+        Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
+    }
+
     open fun hideLoading() {
-//        if (::progressDialog.isInitialized) DialogMethods.dismissDialog(activity, progressDialog)
+        Toast.makeText(context, "Loaded", Toast.LENGTH_SHORT).show()
     }
 
     open fun showLoading() {
-//        if (!::progressDialog.isInitialized)
-//            progressDialog = DialogMethods
-//                    .showProgressDialog(activity,
-//                            R.string.please_wait,
-//                            false,
-//                            true)
-//        progressDialog.show()
+        Toast.makeText(context, "Loading", Toast.LENGTH_SHORT).show()
     }
 
 }

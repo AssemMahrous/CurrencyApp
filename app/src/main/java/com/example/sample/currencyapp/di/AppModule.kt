@@ -20,12 +20,14 @@ import com.example.sample.currencyapp.BuildConfig
 import com.example.sample.currencyapp.data.RemoteDataSource
 import com.example.sample.currencyapp.data.RemoteDataSourceImpl
 import com.example.sample.currencyapp.utils.RxErrorHandlingCallAdapterFactory
+import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import timber.log.Timber
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
@@ -36,9 +38,14 @@ class AppModule {
     @Singleton
     @Provides
     fun provideRetrofit(
-        adapterFactory: RxErrorHandlingCallAdapterFactory
+        adapterFactory: RxErrorHandlingCallAdapterFactory,
+        gson: Gson
     ): Retrofit {
-        val interceptor = HttpLoggingInterceptor()
+
+        val interceptor = HttpLoggingInterceptor(HttpLoggingInterceptor.Logger {
+            Timber.d(it)
+        })
+
         if (BuildConfig.DEBUG)
             interceptor.level = HttpLoggingInterceptor.Level.BODY
         else interceptor.level = HttpLoggingInterceptor.Level.NONE
@@ -49,13 +56,21 @@ class AppModule {
             .addInterceptor(interceptor)
             .build()
 
-
         return Retrofit.Builder()
             .baseUrl(BuildConfig.SERVER_URL)
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create(gson))
             .addCallAdapterFactory(adapterFactory)
             .client(client)
             .build()
+    }
+
+    @Singleton
+    @Provides
+    fun provideGson(): Gson {
+        return Gson()
+            .newBuilder()
+            .setDateFormat("yyyy/MM/dd")
+            .create()
     }
 
     @Singleton
@@ -66,7 +81,7 @@ class AppModule {
 
     @Singleton
     @Provides
-    internal fun provideRxErrorHandlingCallAdapterFactory(): RxErrorHandlingCallAdapterFactory {
+    fun provideRxErrorHandlingCallAdapterFactory(): RxErrorHandlingCallAdapterFactory {
         return RxErrorHandlingCallAdapterFactory.create()
     }
 

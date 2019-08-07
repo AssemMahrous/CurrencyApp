@@ -22,16 +22,17 @@ class MainActivity : BaseActivity<MainRepository, MainViewModel>(), AdapterView.
     override fun getBaseViewModel() = viewModel
     override fun getBaseViewModelFactory() = viewModelFactory
     private var rate = 0.0
-    private var selected_from_index = 1
-    private var selected_to_index = 1
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         viewModel.rate.observe(this, Observer {
-            rate = it as Double
-            val result = rate * tv_currency_input.text.toString().toDouble()
-            setResultText(result.toString())
+            rate = it.toDouble()
+            if (tv_currency_input.text.toString() != "") {
+                val currency = tv_currency_input.text.toString()
+                val result = rate * currency.toDouble()
+                setResultText(result.toString())
+            }
         })
         initView()
     }
@@ -40,9 +41,12 @@ class MainActivity : BaseActivity<MainRepository, MainViewModel>(), AdapterView.
         initSpinnersListener()
         tv_currency_input.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
+                // pass
             }
 
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                // pass
+            }
 
             override fun afterTextChanged(s: Editable) {
                 if (s.isNotEmpty()) {
@@ -81,17 +85,12 @@ class MainActivity : BaseActivity<MainRepository, MainViewModel>(), AdapterView.
     }
 
     override fun onNothingSelected(parent: AdapterView<*>?) {
-
+        // pass
     }
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-        if (sp_from_currency.selectedItemPosition == sp_to_currency.selectedItemPosition) {
-            return
-        }
+        if (sp_from_currency.selectedItemPosition == sp_to_currency.selectedItemPosition) return else rate = 0.0
 
-        if (tv_currency_input.text.toString() != "") {
-            rate = 0.0
-            doSearch()
-        }
+        if (tv_currency_input.text.toString() != "") doSearch()
     }
 }

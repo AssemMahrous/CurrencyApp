@@ -4,9 +4,8 @@ import android.app.ProgressDialog
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
-import android.view.MenuItem
 import android.view.View
-import androidx.annotation.CallSuper
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -36,48 +35,39 @@ abstract class BaseActivity<repository : BaseRepository,
         viewModel = getBaseViewModel()
         viewModelFactory = getBaseViewModelFactory()
 
-        viewModel.loading.observe(this, Observer {
-            if (it) showLoading()
-            else hideLoading()
-        })
-
-        viewModel.error.observe(this, Observer {
-            hideLoading()
-            showError(it)
+        viewModel.Status.observe(this, Observer {
+            when (it) {
+                is ScreenStatus.Error -> showError(it)
+                is ScreenStatus.Loading -> showLoading()
+                is ScreenStatus.Loaded -> hideLoading()
+                else -> {
+                    // todo
+                }
+            }
         })
     }
-
-    fun showError(it: String?) {
-//        Utilities.showAlert(this, it, R.color.colorAccent)
-    }
-
-
-    abstract fun getBaseViewModel(): MBaseViewModel
-
-    abstract fun getBaseViewModelFactory(): ViewModelFactory
 
     override fun supportFragmentInjector() = dispatchingAndroidInjector
 
-    protected fun hideLoading() {
-//        if (::progressDialog.isInitialized) DialogMethods.dismissDialog(this, progressDialog)
-    }
-
-    protected fun showLoading() {
-//        if (!::progressDialog.isInitialized)
-//            progressDialog = DialogMethods
-//                    .showProgressDialog(this,
-//                            R.string.please_wait,
-//                            false,
-//                            true)
-//        progressDialog.show()
-    }
+    abstract fun getBaseViewModel(): MBaseViewModel
 
 
-    @CallSuper
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            android.R.id.home -> onBackPressed()
+    abstract fun getBaseViewModelFactory(): ViewModelFactory
+
+    fun showError(error: ScreenStatus.Error) {
+        val errorMessage = when {
+            error.errorResId != null -> getString(error.errorResId)
+            error.errorString != null -> error.errorString
+            else -> "Something went wrong"
         }
-        return super.onOptionsItemSelected(item)
+        Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
+    }
+
+    open fun hideLoading() {
+        Toast.makeText(this, "Loaded", Toast.LENGTH_SHORT).show()
+    }
+
+    open fun showLoading() {
+        Toast.makeText(this, "Loading", Toast.LENGTH_SHORT).show()
     }
 }
