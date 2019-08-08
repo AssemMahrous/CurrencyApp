@@ -53,8 +53,10 @@ class MainActivity : BaseActivity<MainRepository, MainViewModel>(), AdapterView.
                     if (rate == 0.0) {
                         doSearch()
                     } else {
-                        val result = tv_currency_input.text.toString().toInt() * rate
-                        setResultText(result.toString())
+                        if ((sp_from_currency.selectedItemPosition != sp_to_currency.selectedItemPosition)) {
+                            val result = tv_currency_input.text.toString().toInt() * rate
+                            setResultText(result.toString())
+                        }
                     }
                 } else {
                     setResultText("")

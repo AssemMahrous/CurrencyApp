@@ -42,6 +42,9 @@ object AppInjector {
 
         appComponent.inject(taniaApp)
         taniaApp.registerActivityLifecycleCallbacks(object : Application.ActivityLifecycleCallbacks {
+            override fun onActivitySaveInstanceState(p0: Activity, p1: Bundle) {
+            }
+
             override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
                 handleActivity(activity)
             }
@@ -59,10 +62,6 @@ object AppInjector {
             }
 
             override fun onActivityStopped(activity: Activity) {
-
-            }
-
-            override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle?) {
 
             }
 
