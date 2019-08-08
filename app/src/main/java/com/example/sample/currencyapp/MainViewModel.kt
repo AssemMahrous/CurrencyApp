@@ -10,8 +10,12 @@ class MainViewModel @Inject constructor() : BaseViewModel<MainRepository>() {
 
     fun getRate(base: String, to: String) {
         subscribe(repository.getRate(base, to), Consumer {
-            rate.postValue(it)
+            handleData(it)
             clearSubscription()
-        }, showLoading = false)
+        })
+    }
+
+    private fun handleData(data: String) {
+        rate.postValue(data)
     }
 }
