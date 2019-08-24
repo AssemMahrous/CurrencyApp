@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.sample.currencyapp.R
 import com.example.sample.currencyapp.utils.RetrofitException
+import io.reactivex.Flowable
 import io.reactivex.Observable
 import io.reactivex.Scheduler
 import io.reactivex.Single
@@ -11,8 +12,10 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.functions.Consumer
 import io.reactivex.schedulers.Schedulers
+import org.reactivestreams.Publisher
 import timber.log.Timber
 import java.io.IOException
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 abstract class BaseViewModel<Repository : BaseRepository> : ViewModel() {
@@ -76,8 +79,10 @@ abstract class BaseViewModel<Repository : BaseRepository> : ViewModel() {
         compositeDisposable.add(observable
             .subscribeOn(subscribeScheduler)
             .observeOn(observerScheduler)
-            .compose { single ->
-                composeSingle<T>(single, showLoading, checkConnectivity)
+            .delay(1, TimeUnit.MILLISECONDS)
+            .repeat()
+            .compose {
+                compositePublisher<T>(it, showLoading, checkConnectivity)
             }
             .subscribe(success, Consumer {
                 Timber.e(it)
@@ -93,6 +98,22 @@ abstract class BaseViewModel<Repository : BaseRepository> : ViewModel() {
         checkConnectivity: Boolean = true
     ): Single<T> {
         return single
+            .doOnSubscribe {
+                if (checkConnectivity && repository.connectivityUtils.isNetworkConnected().not()) {
+                    throw RetrofitException.networkError(IOException())
+                } else if (showLoading) Status.postValue(ScreenStatus.Loading())
+            }
+            .doAfterTerminate {
+                if (showLoading) Status.postValue(ScreenStatus.Loaded())
+            }
+    }
+
+    private fun <T> compositePublisher(
+        flowable: Flowable<T>,
+        showLoading: Boolean = true,
+        checkConnectivity: Boolean = true
+    ): Publisher<T> {
+        return flowable
             .doOnSubscribe {
                 if (checkConnectivity && repository.connectivityUtils.isNetworkConnected().not()) {
                     throw RetrofitException.networkError(IOException())
