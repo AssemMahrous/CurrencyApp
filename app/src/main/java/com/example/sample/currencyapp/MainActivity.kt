@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.lifecycle.Observer
 import com.example.sample.currencyapp.base.BaseActivity
 import com.example.sample.currencyapp.base.ViewModelFactory
+import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
 
@@ -13,6 +14,8 @@ class MainActivity : BaseActivity<MainRepository, MainViewModel>() {
     lateinit var viewModel: MainViewModel
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
+    private lateinit var listAdapter: CurrenciesAdapter
+    var list: MutableList<CurrencyModel> = ArrayList()
 
     override fun getBaseViewModel() = viewModel
     override fun getBaseViewModelFactory() = viewModelFactory
@@ -28,6 +31,16 @@ class MainActivity : BaseActivity<MainRepository, MainViewModel>() {
 
     private fun initView() {
         getData("EUR")
+
+        listAdapter = CurrenciesAdapter(list) { i: String, position: Int ->
+
+        }
+        rv_currencies.adapter = listAdapter
+
+        viewModel.currencies.observe(this, Observer {
+            list.addAll(it)
+            listAdapter.notifyDataSetChanged()
+        })
     }
 
 

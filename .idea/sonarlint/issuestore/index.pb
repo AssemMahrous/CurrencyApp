@@ -76,3 +76,5 @@ u
 Eapp/src/main/java/com/example/sample/currencyapp/base/ScreenStatus.kt,d\6\d691574706296c2464681683c59ea7ddbabd4319
 x
 Happ/src/main/java/com/example/sample/currencyapp/di/ConnectivityUtils.kt,e\6\e62555bc81c74d6bff0ae61b0e33a0c0f95787ca
+u
+Eapp/src/main/java/com/example/sample/currencyapp/CurrenciesAdapter.kt,7\7\77b4d1dd5dfa9b930cf6a91ce365b5eb5638fc20
