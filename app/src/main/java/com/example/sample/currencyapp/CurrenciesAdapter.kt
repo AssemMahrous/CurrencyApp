@@ -25,7 +25,6 @@ class CurrenciesAdapter(
 
     override fun onBindViewHolder(holder: CurrenciesHolder, position: Int) {
         holder.bind(data[position], listener, position)
-        swapItem(position)
     }
 
     class CurrenciesHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

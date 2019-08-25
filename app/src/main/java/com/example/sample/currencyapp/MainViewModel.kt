@@ -11,7 +11,6 @@ class MainViewModel @Inject constructor() : BaseViewModel<MainRepository>() {
     fun getRate(base: String) {
         subscribe(repository.getRate(base), Consumer {
             currencies.postValue(it)
-            clearSubscription()
         })
     }
 }

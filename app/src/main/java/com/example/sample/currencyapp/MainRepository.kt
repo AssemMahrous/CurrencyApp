@@ -16,7 +16,7 @@ class MainRepository @Inject constructor(
             .changeRate(base)
             .flatMap { ratesResponse ->
                 val currencies = ArrayList<CurrencyModel>()
-                val json = gson.toJson(ratesResponse)
+                val json = gson.toJson(ratesResponse.rates)
                 val obj = JSONObject(json)
                 val iter = obj.keys()
                 while (iter.hasNext()) {
