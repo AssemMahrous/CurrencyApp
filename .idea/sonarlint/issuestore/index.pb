@@ -13,14 +13,6 @@ A
 Kapp/src/main/java/com/example/sample/currencyapp/utils/RetrofitException.kt,e\b\ebe79d893f323e69946f72fed55c93553b6beca0
 ‹
 [app/src/main/java/com/example/sample/currencyapp/utils/RxErrorHandlingCallAdapterFactory.kt,f\0\f02e59edc9315626ec1aa92c1c5aac72bb0d1c7e
-z
-Japp/src/main/java/com/example/sample/currencyapp/utils/ErrorInterceptor.kt,c\f\cf244c637dade6e0738f81370c393640d4ad0276
-l
-<app/src/main/java/com/example/sample/currencyapp/di/Error.kt,1\1\11a200d3590a58001a3d10f6d0c48af47cab9435
-
-Qapp/src/main/java/com/example/sample/currencyapp/di/LiveDataCallAdapterFactory.kt,e\c\ecd16a5d601678808b13150ade56ef711b3f31b8
-{
-Kapp/src/main/java/com/example/sample/currencyapp/di/NetworkBoundResource.kt,a\e\ae7613114eb3ae9412a8ba4d57dafbf9f2763f3a
 s
 Capp/src/main/java/com/example/sample/currencyapp/di/ViewModelKey.kt,e\0\e01e41e7723ac4d88032ca4314200b77dee98cc8
 v
@@ -40,8 +32,6 @@ y
 Iapp/src/main/java/com/example/sample/currencyapp/data/RemoteDataSource.kt,9\6\9611a127f5c29416fff34cf7e0457fff6ed831ef
 }
 Mapp/src/main/java/com/example/sample/currencyapp/data/RemoteDataSourceImpl.kt,c\d\cd4287da07e8ccc604e57482dd6f000cdf12f529
-z
-Japp/src/main/java/com/example/sample/currencyapp/di/LiveDataCallAdapter.kt,2\d\2d0f8ea4662871b7be62af451f5dd2f851835336
 u
 Eapp/src/main/java/com/example/sample/currencyapp/base/BaseFragment.kt,c\0\c07e2f926b7acf11d53c429350c979830f2f6e7a
 y
@@ -54,14 +44,6 @@ y
 Iapp/src/main/java/com/example/sample/currencyapp/di/RepositoriesModule.kt,f\8\f8100c2f3a0ed8801785486bae2d61a365cb47c2
 v
 Fapp/src/main/java/com/example/sample/currencyapp/di/ViewModelModule.kt,b\a\baeddcbce32f52233a194c3639f740737d370389
-r
-Bapp/src/main/java/com/example/sample/currencyapp/di/ApiResponse.kt,5\5\55841ac17472090713375167a91527a802c215cb
-s
-Capp/src/main/java/com/example/sample/currencyapp/di/AppExecutors.kt,7\1\711240eec4badd9701c869a7565f8831b4d97aed
-o
-?app/src/main/java/com/example/sample/currencyapp/di/Resource.kt,4\5\45d4e2a705fd019dfd9fe7551b5791d87e178b24
-m
-=app/src/main/java/com/example/sample/currencyapp/di/Status.kt,7\5\75cfba53d626a832b2d0fdce6ab7a31cae1e14c2
 s
 Capp/src/main/java/com/example/sample/currencyapp/di/AppComponent.kt,a\5\a50875097c54004eea1f05b34acf6396ac9aaa3d
 p
@@ -90,3 +72,7 @@ R
 "app/src/main/res/values/colors.xml,9\6\969faa2a5d9f5e8390e958d2c07f2cfd54676e6b
 S
 #app/src/main/res/values/strings.xml,d\2\d2281fbb3027de2722081a53408dd77628bf080e
+u
+Eapp/src/main/java/com/example/sample/currencyapp/base/ScreenStatus.kt,d\6\d691574706296c2464681683c59ea7ddbabd4319
+x
+Happ/src/main/java/com/example/sample/currencyapp/di/ConnectivityUtils.kt,e\6\e62555bc81c74d6bff0ae61b0e33a0c0f95787ca

@@ -5,6 +5,7 @@
     <string name="to">To</string>
     <string name="add_your_quantity_here">add your quantity here</string>
     <string name="result">Result:</string>
+    <string name="rates">Rates</string>
     <string-array name="currencies">
         <item>GBP</item>
         <item>HKD</item>

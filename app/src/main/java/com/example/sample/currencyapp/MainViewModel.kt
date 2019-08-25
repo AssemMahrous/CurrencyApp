@@ -6,16 +6,12 @@ import io.reactivex.functions.Consumer
 import javax.inject.Inject
 
 class MainViewModel @Inject constructor() : BaseViewModel<MainRepository>() {
-    val rate = MutableLiveData<String>()
+    val currencies = MutableLiveData<ArrayList<CurrencyModel>>()
 
-    fun getRate(base: String, to: String) {
-        subscribe(repository.getRate(base, to), Consumer {
-            handleData(it)
+    fun getRate(base: String) {
+        subscribe(repository.getRate(base), Consumer {
+            currencies.postValue(it)
             clearSubscription()
         })
-    }
-
-    private fun handleData(data: String) {
-        rate.postValue(data)
     }
 }
