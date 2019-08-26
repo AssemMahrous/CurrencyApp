@@ -27,7 +27,6 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import timber.log.Timber
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
@@ -42,9 +41,10 @@ class AppModule {
         gson: Gson
     ): Retrofit {
 
-        val interceptor = HttpLoggingInterceptor(HttpLoggingInterceptor.Logger {
+        val interceptor = HttpLoggingInterceptor(/*HttpLoggingInterceptor.Logger {
             Timber.d(it)
-        })
+        }*/
+        )
 
         if (BuildConfig.DEBUG)
             interceptor.level = HttpLoggingInterceptor.Level.BODY

@@ -15,36 +15,31 @@ class MainActivity : BaseActivity<MainRepository, MainViewModel>() {
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
     private lateinit var listAdapter: CurrenciesAdapter
-    var list: MutableList<CurrencyModel> = ArrayList()
 
     override fun getBaseViewModel() = viewModel
     override fun getBaseViewModelFactory() = viewModelFactory
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        viewModel.currencies.observe(this, Observer {
-
-        })
         initView()
     }
 
     private fun initView() {
-        getData("EUR")
-
-        listAdapter = CurrenciesAdapter { i: String, position: Int ->
-            //            listAdapter.swapItem(position)
-
+        listAdapter = CurrenciesAdapter { base: String, value: Float ->
+            viewModel.checkRates(base, value)
         }
         rv_currencies.adapter = listAdapter
-
         viewModel.currencies.observe(this, Observer {
             listAdapter.addRates(it)
         })
+
+        viewModel.updateRate.observe(this, Observer {
+            listAdapter.updateAmount(it)
+        })
+        getData()
     }
 
-
-    fun getData(base: String) {
-        viewModel.getRate(base)
+    fun getData() {
+        viewModel.getRate(viewModel.currentBase)
     }
 }

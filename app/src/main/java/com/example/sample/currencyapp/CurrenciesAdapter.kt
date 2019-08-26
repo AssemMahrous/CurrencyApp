@@ -1,5 +1,7 @@
 package com.example.sample.currencyapp
 
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,24 +10,21 @@ import kotlinx.android.synthetic.main.currencies_signle_item.view.*
 import java.util.*
 
 class CurrenciesAdapter(
-    val listener: (id: String, position: Int) -> Unit
+    val listener: (id: String, value: Float) -> Unit
 ) : RecyclerView.Adapter<CurrenciesAdapter.CurrenciesHolder>() {
     var data = ArrayList<CurrencyModel>()
     private var amount = 1.0F
-
 
     fun addRates(currencies: ArrayList<CurrencyModel>) {
         if (data.isEmpty()) {
             data.addAll(currencies)
         }
-
         for (currency in currencies) {
-            data.forEachIndexed { index, element ->
-                if (element.symbol == currency.symbol)
+            data.forEachIndexed { index, _ ->
+                if (data[index].symbol == currency.symbol)
                     data[index].rate = currency.rate
             }
         }
-
         notifyItemRangeChanged(0, data.size - 1, amount)
     }
 
@@ -41,27 +40,55 @@ class CurrenciesAdapter(
     }
 
     override fun onBindViewHolder(holder: CurrenciesHolder, position: Int) {
-        holder.bind(data[position], listener, position)
+        holder.bind(data[position])
     }
 
-    class CurrenciesHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class CurrenciesHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        var base: String = ""
         fun bind(
-            item: CurrencyModel,
-            listener: (id: String, position: Int) -> Unit,
-            position: Int
+            item: CurrencyModel
         ) {
             itemView.tv_currency_title.text = item.symbol
             itemView.et_currency.setText(item.rate.toString())
-            itemView.setOnClickListener { listener(item.symbol, position) }
-
+            if (!itemView.et_currency.isFocused) {
+                itemView.et_currency.setText((item.rate!!.times(amount)).toString())
+            }
+            base = item.symbol
+            setUpCurrencyChangedListener()
+            itemView.setOnClickListener { swapItem() }
         }
 
+        private fun swapItem() {
+            Collections.swap(data, adapterPosition, 0)
+            notifyItemMoved(adapterPosition, 0)
+        }
+
+        private fun setUpCurrencyChangedListener() {
+            itemView.et_currency.addTextChangedListener(object : TextWatcher {
+                override fun afterTextChanged(input: Editable?) {
+                    if (input.toString().isNotEmpty()) {
+                        if (itemView.et_currency.isFocused) {
+                            listener(base, input.toString().toFloat())
+                        }
+                    }
+                }
+
+                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                }
+
+                override fun onTextChanged(
+                    input: CharSequence?,
+                    start: Int,
+                    befor: Int,
+                    count: Int
+                ) {
+                }
+            })
+        }
     }
 
-    fun swapItem(position: Int) {
-        Collections.swap(data, position, 0);
-        notifyItemMoved(position, 0);
+    fun updateAmount(amount: Float) {
+        this.amount = amount
+        notifyItemRangeChanged(0, data.size - 1, amount)
     }
-
-
 }

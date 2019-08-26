@@ -36,7 +36,6 @@ class RxErrorHandlingCallAdapterFactory : CallAdapter.Factory() {
         override fun adapt(call: Call<R>): Any {
             val adapted = (_wrappedCallAdapter.adapt(call) as Single<R>)
             return adapted.onErrorResumeNext { throwable: Throwable ->
-                //need return here
                 Single.error(asRetrofitException(throwable))
             }
 
