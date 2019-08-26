@@ -8,9 +8,26 @@ import kotlinx.android.synthetic.main.currencies_signle_item.view.*
 import java.util.*
 
 class CurrenciesAdapter(
-    var data: List<CurrencyModel>,
     val listener: (id: String, position: Int) -> Unit
 ) : RecyclerView.Adapter<CurrenciesAdapter.CurrenciesHolder>() {
+    var data = ArrayList<CurrencyModel>()
+    private var amount = 1.0F
+
+
+    fun addRates(currencies: ArrayList<CurrencyModel>) {
+        if (data.isEmpty()) {
+            data.addAll(currencies)
+        }
+
+        for (currency in currencies) {
+            data.forEachIndexed { index, element ->
+                if (element.symbol == currency.symbol)
+                    data[index].rate = currency.rate
+            }
+        }
+
+        notifyItemRangeChanged(0, data.size - 1, amount)
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CurrenciesHolder {
         return CurrenciesHolder(
@@ -34,9 +51,9 @@ class CurrenciesAdapter(
             listener: (id: String, position: Int) -> Unit,
             position: Int
         ) {
-            itemView.tv_currency_title.text = item.pref
-            itemView.et_currency.setText(item.name)
-            itemView.setOnClickListener { listener(item.pref, position) }
+            itemView.tv_currency_title.text = item.symbol
+            itemView.et_currency.setText(item.rate.toString())
+            itemView.setOnClickListener { listener(item.symbol, position) }
 
         }
 

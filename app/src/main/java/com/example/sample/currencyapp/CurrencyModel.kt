@@ -1,8 +1,6 @@
 package com.example.sample.currencyapp
 
-class CurrencyModel (val pref: String,
-                     val name: String) {
-    override fun toString(): String {
-        return pref
-    }
-}
+data class CurrencyModel(
+    val symbol: String,
+    var rate: Float?
+)

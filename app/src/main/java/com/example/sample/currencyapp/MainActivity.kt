@@ -23,23 +23,19 @@ class MainActivity : BaseActivity<MainRepository, MainViewModel>() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        viewModel.currencies.observe(this, Observer {
-
-        })
         initView()
     }
 
     private fun initView() {
         getData("EUR")
 
-        listAdapter = CurrenciesAdapter(list) { i: String, position: Int ->
+        listAdapter = CurrenciesAdapter { i: String, position: Int ->
 
         }
         rv_currencies.adapter = listAdapter
 
         viewModel.currencies.observe(this, Observer {
-            list.addAll(it)
-            listAdapter.notifyDataSetChanged()
+            listAdapter.addRates(it)
         })
     }
 
