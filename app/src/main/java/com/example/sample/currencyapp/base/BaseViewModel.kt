@@ -79,7 +79,7 @@ abstract class BaseViewModel<Repository : BaseRepository> : ViewModel() {
         compositeDisposable.add(observable
             .subscribeOn(subscribeScheduler)
             .observeOn(observerScheduler)
-            .delay(1, TimeUnit.MILLISECONDS)
+            .delay(1, TimeUnit.SECONDS)
             .repeat()
             .compose {
                 compositePublisher<T>(it, showLoading, checkConnectivity)
