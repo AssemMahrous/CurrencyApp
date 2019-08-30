@@ -22,6 +22,7 @@ class MainViewModel @Inject constructor() : BaseViewModel<MainRepository>() {
         if (base == currentBase) {
             updateRate.postValue(amount)
         } else {
+            currencies.postValue(null)
             getRate(base)
         }
     }

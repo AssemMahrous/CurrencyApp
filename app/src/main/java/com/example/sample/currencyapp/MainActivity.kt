@@ -30,7 +30,8 @@ class MainActivity : BaseActivity<MainRepository, MainViewModel>() {
         }
         rv_currencies.adapter = listAdapter
         viewModel.currencies.observe(this, Observer {
-            listAdapter.addRates(it)
+            if (it != null)
+                listAdapter.addRates(it)
         })
 
         viewModel.updateRate.observe(this, Observer {
