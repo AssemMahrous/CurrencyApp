@@ -4,18 +4,21 @@ package com.example.sample.currencyapp
 import android.view.View
 import android.view.ViewGroup
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.IdlingRegistry
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.filters.LargeTest
 import androidx.test.rule.ActivityTestRule
 import androidx.test.runner.AndroidJUnit4
+import com.example.sample.currencyapp.utils.EspressoTestingIdlingResource
 import org.hamcrest.Description
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers.`is`
 import org.hamcrest.Matchers.allOf
 import org.hamcrest.TypeSafeMatcher
-import org.hamcrest.core.IsInstanceOf
+import org.junit.After
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -27,6 +30,11 @@ class MainActivityTest {
     @Rule
     @JvmField
     var mActivityTestRule = ActivityTestRule(MainActivity::class.java)
+
+    @Before
+    fun registerIdlingResource() {
+        IdlingRegistry.getInstance().register(EspressoTestingIdlingResource.idlingResource)
+    }
 
     @Test
     fun mainActivityTest() {
@@ -51,30 +59,9 @@ class MainActivityTest {
             allOf(
                 childAtPosition(
                     allOf(
-                        withId(R.id.rv_currencies),
+                        withId(R.id.tv_currency_title),
                         childAtPosition(
-                            IsInstanceOf.instanceOf(android.view.ViewGroup::class.java),
-                            1
-                        )
-                    ),
-                    1
-                ),
-                isDisplayed()
-            )
-        )
-        viewGroup.check(matches(isDisplayed()))
-
-    }
-
-    @Test
-    fun mainActivityTest2() {
-        val viewGroup = onView(
-            allOf(
-                childAtPosition(
-                    allOf(
-                        withId(android.R.id.content),
-                        childAtPosition(
-                            withId(R.id.decor_content_parent),
+                            withId(R.id.rv_currencies),
                             1
                         )
                     ),
@@ -84,6 +71,7 @@ class MainActivityTest {
             )
         )
         viewGroup.check(matches(isDisplayed()))
+
     }
 
     private fun childAtPosition(
@@ -102,5 +90,10 @@ class MainActivityTest {
                         && view == parent.getChildAt(position)
             }
         }
+    }
+
+    @After
+    fun unregisterIdlingResource() {
+        IdlingRegistry.getInstance().unregister(EspressoTestingIdlingResource.idlingResource)
     }
 }
