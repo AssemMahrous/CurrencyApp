@@ -1,6 +1,6 @@
 package com.example.sample.currencyapp
 
 data class CurrencyModel(
-    val symbol: String,
+    val base: String,
     var rate: Float?
 )

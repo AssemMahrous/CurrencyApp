@@ -33,13 +33,11 @@ class CurrenciesAdapter(
 
     inner class CurrenciesHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var base: String = ""
-        fun bind(
-            item: CurrencyModel
-        ) {
-            if (base != item.symbol) {
-                itemView.tv_currency_title.text = item.symbol
-                itemView.tv_currency_base.text = item.symbol
-                base = item.symbol
+        fun bind(item: CurrencyModel) {
+            if (base != item.base) {
+                itemView.tv_currency_title.text = item.base
+                itemView.tv_currency_base.text = item.base
+                base = item.base
                 setUpCurrencyChangedListener()
                 itemView.et_currency.onFocusChangeListener =
                     View.OnFocusChangeListener { _, hasFocus ->
@@ -90,10 +88,10 @@ class CurrenciesAdapter(
 
     fun addRates(currencies: ArrayList<CurrencyModel>) {
         if (sympols.isEmpty()) {
-            sympols.addAll(currencies.map { it.symbol })
+            sympols.addAll(currencies.map { it.base })
         }
         for (currency in currencies) {
-            data[currency.symbol] = currency
+            data[currency.base] = currency
         }
         notifyItemRangeChanged(0, sympols.size - 1, amount)
     }

@@ -30,8 +30,10 @@ class MainActivity : BaseActivity<MainRepository, MainViewModel>() {
         }
         rv_currencies.adapter = listAdapter
         viewModel.currencies.observe(this, Observer {
-            if (it != null)
+            if (it != null) {
                 listAdapter.addRates(it)
+                addData()
+            }
         })
 
         viewModel.updateRate.observe(this, Observer {
@@ -42,5 +44,8 @@ class MainActivity : BaseActivity<MainRepository, MainViewModel>() {
 
     fun getData() {
         viewModel.getRate(viewModel.currentBase)
+    }
+
+    fun addData() {
     }
 }
