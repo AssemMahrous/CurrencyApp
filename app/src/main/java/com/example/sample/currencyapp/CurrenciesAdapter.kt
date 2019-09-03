@@ -12,8 +12,8 @@ import java.util.*
 class CurrenciesAdapter(
     val listener: (id: String, value: Float) -> Unit
 ) : RecyclerView.Adapter<CurrenciesAdapter.CurrenciesHolder>() {
-    var data = HashMap<String?, CurrencyModel>()
-    var sympols = ArrayList<String>()
+    private var data = HashMap<String?, CurrencyModel>()
+    private var bases = ArrayList<String>()
     private var amount = 1.0F
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CurrenciesHolder {
@@ -21,10 +21,6 @@ class CurrenciesAdapter(
             LayoutInflater.from(parent.context)
                 .inflate(R.layout.currencies_single_item, parent, false)
         )
-    }
-
-    override fun getItemCount(): Int {
-        return data.size
     }
 
     override fun onBindViewHolder(holder: CurrenciesHolder, position: Int) {
@@ -35,9 +31,9 @@ class CurrenciesAdapter(
         var base: String = ""
         fun bind(item: CurrencyModel) {
             if (base != item.base) {
+                this.base = item.base
                 itemView.tv_currency_title.text = item.base
                 itemView.tv_currency_base.text = item.base
-                base = item.base
                 setUpCurrencyChangedListener()
                 itemView.et_currency.onFocusChangeListener =
                     View.OnFocusChangeListener { _, hasFocus ->
@@ -55,8 +51,8 @@ class CurrenciesAdapter(
 
         private fun swapItem() {
             adapterPosition.takeIf { it > 0 }?.also { currentPosition ->
-                sympols.removeAt(currentPosition).also {
-                    sympols.add(0, it)
+                bases.removeAt(currentPosition).also {
+                    bases.add(0, it)
                 }
                 notifyItemMoved(currentPosition, 0)
             }
@@ -87,22 +83,25 @@ class CurrenciesAdapter(
     }
 
     fun addRates(currencies: ArrayList<CurrencyModel>) {
-        if (sympols.isEmpty()) {
-            sympols.addAll(currencies.map { it.base })
+        if (bases.isEmpty()) {
+            bases.addAll(currencies.map { it.base })
         }
         for (currency in currencies) {
             data[currency.base] = currency
         }
-        notifyItemRangeChanged(0, sympols.size - 1, amount)
+        notifyItemRangeChanged(0, bases.size - 1, amount)
     }
 
     fun updateAmount(amount: Float) {
         this.amount = amount
-        notifyItemRangeChanged(0, sympols.size - 1, amount)
+        notifyItemRangeChanged(0, bases.size - 1, this.amount)
     }
 
     private fun getRate(pos: Int): CurrencyModel {
-        return data[sympols[pos]]!!
+        return data[bases[pos]]!!
     }
 
+    override fun getItemCount(): Int {
+        return bases.size
+    }
 }

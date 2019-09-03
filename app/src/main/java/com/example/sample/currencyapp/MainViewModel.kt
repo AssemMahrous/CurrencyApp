@@ -10,7 +10,7 @@ class MainViewModel @Inject constructor() : BaseViewModel<MainRepository>() {
     val currencies = MutableLiveData<ArrayList<CurrencyModel>>()
     val updateRate = MutableLiveData<Float>()
     var currentBase = "EUR"
-    var DEFAULT_AMOUNT = 1.0f
+    var default_amount = 1.0f
 
     fun getRate(baseCurrency: String) {
         currentBase = baseCurrency
@@ -22,11 +22,12 @@ class MainViewModel @Inject constructor() : BaseViewModel<MainRepository>() {
         })
     }
 
-    fun checkRates(base: String = currentBase, amount: Float = DEFAULT_AMOUNT) {
+    fun checkRates(base: String = currentBase, amount: Float = default_amount) {
         if (base == currentBase) {
             updateRate.postValue(amount)
         } else {
             currencies.postValue(null)
+            clearSubscription()
             getRate(base)
         }
     }

@@ -14,7 +14,7 @@ class MainRepository @Inject constructor(
             .flatMap { ratesResponse ->
                 EspressoTestingIdlingResource.increment()
                 val currencies = ArrayList<CurrencyModel>()
-                currencies.add(CurrencyModel(base, DEFAULT_AMOUNT))
+                currencies.add(CurrencyModel(ratesResponse.base, DEFAULT_AMOUNT))
                 currencies.addAll(ratesResponse.rates.map { CurrencyModel(it.key, it.value) })
                 return@flatMap Single.just(currencies)
             }

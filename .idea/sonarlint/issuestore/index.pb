@@ -62,8 +62,6 @@ P
  app/src/main/AndroidManifest.xml,8\c\8c55c3ccc257e5907959013f99656e4c8ec3903e
 ?
 settings.gradle,0\5\05efc8b1657769a27696d478ded1e95f38737233
-t
-Dapp/src/main/java/com/example/sample/currencyapp/data/model/Rates.kt,b\f\bfe00cf83893df51611ff1ff46486abcadcbb65c
 |
 Lapp/src/main/java/com/example/sample/currencyapp/data/model/RatesResponse.kt,c\d\cd2ab37f252fdd005f40892879bd3c2a20b7dfbf
 f
