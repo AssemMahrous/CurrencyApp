@@ -48,4 +48,10 @@ class MainActivity : BaseActivity<MainRepository, MainViewModel>() {
 
     fun addData() {
     }
+
+    override fun onDestroy() {
+        viewModel.clearSubsciptions()
+        super.onDestroy()
+
+    }
 }

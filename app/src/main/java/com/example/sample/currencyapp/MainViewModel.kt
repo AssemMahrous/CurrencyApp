@@ -17,8 +17,6 @@ class MainViewModel @Inject constructor() : BaseViewModel<MainRepository>() {
         subscribe(repository.getRate(currentBase), Consumer {
             currencies.postValue(it)
             EspressoTestingIdlingResource.decrement()
-        }, Consumer {
-            EspressoTestingIdlingResource.decrement()
         })
     }
 
@@ -27,8 +25,12 @@ class MainViewModel @Inject constructor() : BaseViewModel<MainRepository>() {
             updateRate.postValue(amount)
         } else {
             currencies.postValue(null)
-            clearSubscription()
+            clearSubsciptions()
             getRate(base)
         }
+    }
+
+    fun clearSubsciptions() {
+        clearSubscription()
     }
 }

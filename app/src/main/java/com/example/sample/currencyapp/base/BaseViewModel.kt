@@ -85,6 +85,7 @@ abstract class BaseViewModel<Repository : BaseRepository> : ViewModel() {
                 compositePublisher<T>(it, showLoading, checkConnectivity)
             }
             .subscribe(success, Consumer {
+                //                EspressoTestingIdlingResource.decrement()
                 Timber.e(it)
                 handleError(it)
                 error.accept(it)
